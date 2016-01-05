@@ -1,12 +1,28 @@
+<#
+.SYNOPSIS
+    .
+.DESCRIPTION
+    Enable or Disable traces for the TestAgent or TestController skus.
+.PARAMETER Path
+    The path to the .
+.LINK
+    See http://blogs.msdn.com/b/aseemb/archive/2009/11/28/how-to-enable-test-controller-logs.aspx    
+.PARAMETER LiteralPath
+    Specifies a path to one or more locations. Unlike Path, the value of 
+    LiteralPath is used exactly as it is typed. No characters are interpreted 
+    as wildcards. If the path includes escape characters, enclose it in single
+    quotation marks. Single quotation marks tell Windows PowerShell not to 
+    interpret any characters as escape sequences.
+#>
 Param(
 	[Parameter(Mandatory=$true)]
-	[bool]$Enable,
-	
+	[bool]$Enable                     #Enable/Disable the traces
+	,
 	[Parameter(Mandatory=$true)]
-	[string]$TestAgentOrController,
-	
+	[string]$TestAgentOrController    #Specify target ie. TestAgent or TestController
+	,
 	[Parameter(Mandatory=$true)]
-	[string]$Version
+	[string]$Version                   #Specify version of TestAgent or TestController eg. 14.0
 )
 
 function GetInstallDir([string]$vsTestVersion){
@@ -15,7 +31,7 @@ function GetInstallDir([string]$vsTestVersion){
 	{
 		$wowNode="\Wow6432Node"
 	}
-	$regkey = Get-ItemProperty -Path ("HKLM:\SOFTWARE" + $wowNode + "\Microsoft\VisualStudio\" + $vsTestVersion)
+	$regkey = Get-ItemProperty -Path ("HKLM:\SOFTWARE" + $wowNode + "\Microsoft\VisualStudio\" + $vsTestVersion + "\EnterpriseTools\QualityTools")
 	return $regKey.InstallDir
 }
 
